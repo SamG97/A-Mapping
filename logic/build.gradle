@@ -1,16 +1,31 @@
+buildscript {
+    repositories {
+        jcenter() // or mavenCentral()
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:1.5.0'
+    }
+}
+
 apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "19.1.0"
+    buildToolsVersion '23.0.2'
 
     defaultConfig {
         applicationId "com.example.a_starroutefinding"
         minSdkVersion 22
-        targetSdkVersion 23
+        targetSdkVersion 22
         versionCode 1
         versionName "1.0"
     }
+
+    repositories {
+        maven { url 'http://repo1.maven.org/maven2' }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -20,8 +35,7 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    testCompile 'junit:junit:4.12'
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:appcompat-v7:23.+'
     compile 'com.android.support:design:23.+'
 }

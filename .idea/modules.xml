@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/A-Mapping.iml" filepath="$PROJECT_DIR$/A-Mapping.iml" />
+      <module fileurl="file://$PROJECT_DIR$/logic/logic.iml" filepath="$PROJECT_DIR$/logic/logic.iml" />
     </modules>
   </component>
 </project>
