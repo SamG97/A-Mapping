@@ -1,5 +1,6 @@
 package com.example.a_starroutefinding;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -10,9 +11,27 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
+public class MainActivity extends AppCompatActivity{
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        Button start = (Button) findViewById(R.id.options);
+        start.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, options.class));
+            }
+        });
+    }
+}
+/*
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     @Override
@@ -73,3 +92,4 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         ((TextView)findViewById(R.id.textView)).setText("Not Clicked");
     }
 }
+*/

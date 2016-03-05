@@ -11,5 +11,7 @@
         <item>Uranus</item>
         <item>Neptune</item>
     </string-array>
+    <string name="title_activity_start_menu">start_menu</string>
+    <string name="title_activity_options">options</string>
 </resources>
 
