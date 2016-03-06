@@ -24,7 +24,6 @@ public class options extends AppCompatActivity {
 
     public Boolean stair_option = false;
 
-    public String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/a_starroutefinding";
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_options);
@@ -42,8 +41,8 @@ public class options extends AppCompatActivity {
                     fileOutputStream.close();
                 } catch (FileNotFoundException e){
                     e.printStackTrace();
-                } catch (IOException e){
-                    e.printStackTrace();
+                } catch (IOException f){
+                    f.printStackTrace();
                 }
                 finish();
             }
@@ -55,11 +54,11 @@ public class options extends AppCompatActivity {
             InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
             BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
             Message2=bufferedReader.readLine();
-            stair_option = Boolean.valueOf(Message2.toString());
+            stair_option = Boolean.valueOf(Message2);
         } catch (FileNotFoundException e){
             e.printStackTrace();
-        } catch (IOException e){
-            e.printStackTrace();
+        } catch (IOException f){
+            f.printStackTrace();
         }
         stairs.setChecked(stair_option);
         stairs.setOnClickListener(new View.OnClickListener() {
