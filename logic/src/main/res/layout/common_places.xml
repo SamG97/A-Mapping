@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Reception"
+        android:id="@+id/reception"
+        android:layout_weight="0.05" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Hall / Canteen"
+        android:id="@+id/hall"
+        android:layout_weight="0.05" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Playground / Parking"
+        android:id="@+id/playground"
+        android:layout_weight="0.05" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Sixth Form Common Room"
+        android:id="@+id/common_room"
+        android:layout_weight="0.05" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Gym"
+        android:id="@+id/gym"
+        android:layout_weight="0.05" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Sports Hall"
+        android:id="@+id/sports"
+        android:layout_weight="0.05" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Pavilion"
+        android:id="@+id/pavilion"
+        android:layout_weight="0.05" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Fitness Room"
+        android:id="@+id/fitness"
+        android:layout_weight="0.05" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Swimming Pool"
+        android:id="@+id/swimming"
+        android:layout_weight="0.05" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Cafe 42"
+        android:id="@+id/cafe"
+        android:layout_weight="0.05" />
+</LinearLayout>

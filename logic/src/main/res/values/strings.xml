@@ -13,5 +13,8 @@
     </string-array>
     <string name="title_activity_start_menu">start_menu</string>
     <string name="title_activity_options">options</string>
+    <string name="title_activity_location_chooser">location_chooser</string>
+    <string name="title_activity_places">places</string>
+    <string name="title_activity_main2">Main2Activity</string>
 </resources>
 

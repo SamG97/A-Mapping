@@ -29,6 +29,14 @@ public class MainActivity extends AppCompatActivity{
                 startActivity(new Intent(MainActivity.this, options.class));
             }
         });
+
+        Button start_route = (Button) findViewById(R.id.start);
+        start_route.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, places.class));
+            }
+        });
     }
 }
 /*
