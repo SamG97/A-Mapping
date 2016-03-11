@@ -63,8 +63,7 @@ public class options extends AppCompatActivity {
         stairs.setChecked(stair_option);
         stairs.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                stair_option = !stair_option;
+            public void onClick(View view) {stair_option = !stair_option;
             }
         });
     }

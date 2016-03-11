@@ -36,7 +36,7 @@ public class places extends AppCompatActivity{
     }
 
     protected void return_place(String place_name){
-        Toast.makeText(getApplicationContext(),place_name,Toast.LENGTH_LONG).show();
+        Global.startLocation = place_name;
         finish();
     }
 

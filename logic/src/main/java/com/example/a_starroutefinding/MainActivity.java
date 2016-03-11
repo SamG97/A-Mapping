@@ -34,7 +34,12 @@ public class MainActivity extends AppCompatActivity{
         start_route.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, places.class));
+                Intent start = new Intent(MainActivity.this, places.class);
+                startActivity(start);
+                while (! Global.continueStart){
+
+                }
+                Toast.makeText(getApplicationContext(), Global.startLocation, Toast.LENGTH_LONG).show();
             }
         });
     }
