@@ -36,12 +36,14 @@ public class MainActivity extends AppCompatActivity{
             public void onClick(View view) {
                 Intent start = new Intent(MainActivity.this, places.class);
                 startActivity(start);
-                while (! Global.continueStart){
-
-                }
-                Toast.makeText(getApplicationContext(), Global.startLocation, Toast.LENGTH_LONG).show();
             }
         });
+
+        Global.mainActivity = this;
+    }
+
+    public void TestMethod(String location){
+        Toast.makeText(getApplicationContext(), location, Toast.LENGTH_LONG).show();
     }
 }
 /*

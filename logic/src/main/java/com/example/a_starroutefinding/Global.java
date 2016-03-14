@@ -6,4 +6,5 @@ package com.example.a_starroutefinding;
 public class Global {
     static String startLocation = "";
     static boolean continueStart = false;
+    static MainActivity mainActivity = null;
 }

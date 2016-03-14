@@ -6,6 +6,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.test.suitebuilder.TestMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -36,7 +37,9 @@ public class places extends AppCompatActivity{
     }
 
     protected void return_place(String place_name){
-        Global.startLocation = place_name;
+        if (Global.mainActivity != null) {
+            Global.mainActivity.TestMethod(place_name);
+        }
         finish();
     }
 
