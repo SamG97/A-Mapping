@@ -3,6 +3,7 @@ package com.example.a_starroutefinding;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.annotation.RequiresPermission;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -22,7 +23,7 @@ import java.io.InputStreamReader;
 
 public class options extends AppCompatActivity {
 
-    public Boolean stair_option = false;
+    public Boolean stairOption = false;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,9 +36,9 @@ public class options extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 try {
-                    String Message = stair_option.toString();
+                    String WriteMessage = stairOption.toString();
                     FileOutputStream fileOutputStream = openFileOutput("settings.txt", MODE_PRIVATE);
-                    fileOutputStream.write(Message.getBytes());
+                    fileOutputStream.write(WriteMessage.getBytes());
                     fileOutputStream.close();
                 } catch (FileNotFoundException e){
                     e.printStackTrace();
@@ -49,21 +50,21 @@ public class options extends AppCompatActivity {
         });
 
         try {
-            String Message2;
+            String ReadMessage;
             FileInputStream fileInputStream = openFileInput("settings.txt");
             InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
             BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-            Message2=bufferedReader.readLine();
-            stair_option = Boolean.valueOf(Message2);
+            ReadMessage=bufferedReader.readLine();
+            stairOption = Boolean.valueOf(ReadMessage);
         } catch (FileNotFoundException e){
             e.printStackTrace();
         } catch (IOException f){
             f.printStackTrace();
         }
-        stairs.setChecked(stair_option);
+        stairs.setChecked(stairOption);
         stairs.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {stair_option = !stair_option;
+            public void onClick(View view) {stairOption = !stairOption;
             }
         });
     }

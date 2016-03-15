@@ -2,14 +2,9 @@ package com.example.a_starroutefinding;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.test.suitebuilder.TestMethod;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 public class places extends AppCompatActivity{
     @Override
@@ -17,12 +12,12 @@ public class places extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_places);
 
-        Button common_places = (Button) findViewById(R.id.common);
-        common_places.setOnClickListener(new View.OnClickListener() {
+        Button commonPlaces = (Button) findViewById(R.id.common);
+        commonPlaces.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 setContentView(R.layout.common_places);
-                common_places_menu();
+                CommonPlacesMenu();
             }
         });
 
@@ -31,24 +26,34 @@ public class places extends AppCompatActivity{
             @Override
             public void onClick(View view) {
                 setContentView(R.layout.classroom_block);
-                classroom_block_menu();
+                ClassroomBlockMenu();
             }
         });
     }
 
-    protected void return_place(String place_name){
+    protected void ReturnPlace(String placeName){
         if (Global.mainActivity != null) {
-            Global.mainActivity.TestMethod(place_name);
+            if (Global.locationStage == 0) {
+                Global.startLocation = placeName;
+                Global.locationStage = 1;
+                Intent start = new Intent(places.this, places.class);
+                startActivity(start);
+                finish();
+            } else {
+                Global.targetLocation = placeName;
+                Global.mainActivity.CalculateRoute();
+                finish();
+            }
         }
         finish();
     }
 
-    protected void common_places_menu() {
+    protected void CommonPlacesMenu() {
         Button reception = (Button) findViewById(R.id.reception);
         reception.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                return_place("Reception");
+                ReturnPlace("Reception");
             }
         });
 
@@ -56,7 +61,7 @@ public class places extends AppCompatActivity{
         hall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                return_place("Hall");
+                ReturnPlace("Hall");
             }
         });
 
@@ -64,15 +69,15 @@ public class places extends AppCompatActivity{
         playground.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                return_place("Playground");
+                ReturnPlace("Playground");
             }
         });
 
-        Button common_room = (Button) findViewById(R.id.common_room);
-        common_room.setOnClickListener(new View.OnClickListener() {
+        Button commonRoom = (Button) findViewById(R.id.commonRoom);
+        commonRoom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                return_place("Common Room");
+                ReturnPlace("Common Room");
             }
         });
 
@@ -80,7 +85,7 @@ public class places extends AppCompatActivity{
         gym.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                return_place("Gym");
+                ReturnPlace("Gym");
             }
         });
 
@@ -88,7 +93,7 @@ public class places extends AppCompatActivity{
         sports.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                return_place("Sports Hall");
+                ReturnPlace("Sports Hall");
             }
         });
 
@@ -96,7 +101,7 @@ public class places extends AppCompatActivity{
         pavilion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                return_place("Pavilion");
+                ReturnPlace("Pavilion");
             }
         });
 
@@ -104,7 +109,7 @@ public class places extends AppCompatActivity{
         fitness.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                return_place("Fitness Room");
+                ReturnPlace("Fitness Room");
             }
         });
 
@@ -112,7 +117,7 @@ public class places extends AppCompatActivity{
         swimming.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                return_place("Swimming Pool");
+                ReturnPlace("Swimming Pool");
             }
         });
 
@@ -120,18 +125,24 @@ public class places extends AppCompatActivity{
         cafe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                return_place("Cafe");
+                ReturnPlace("Cafe");
             }
         });
     }
 
-    protected void classroom_block_menu(){
+    protected void ClassroomBlockMenu(){
         Button a = (Button) findViewById(R.id.a);
         a.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                return_place("A");
+                RoomNumber();
             }
         });
+
+
+    }
+
+    protected void RoomNumber(){
+
     }
 }

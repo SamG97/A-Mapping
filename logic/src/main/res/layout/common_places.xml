@@ -29,7 +29,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Sixth Form Common Room"
-        android:id="@+id/common_room"
+        android:id="@+id/commonRoom"
         android:layout_weight="0.05" />
 
     <Button
