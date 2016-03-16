@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity{
         options.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, com.example.a_starroutefinding.options.class));
+                startActivity(new Intent(MainActivity.this, options2.class));
             }
         });
 
