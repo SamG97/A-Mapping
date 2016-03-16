@@ -1,40 +1,51 @@
 package com.example.a_starroutefinding;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 
 public class Global {
     static MainActivity mainActivity = null;
     static int locationStage = 0;
     static String startLocation,targetLocation = "";
-    static Node[] network;
+    static ArrayList<Node> network = new ArrayList<>();
 
     public class Node {
         public String identifier = "";
         public int nodeID,x,y,z = 0;
-        public int[] adjecentNodes;
-        public Node(int nodeID, String identifier,int x, int y, int z, int[] adjecentNodes){
-            this.nodeID = nodeID;
-            this.identifier = identifier;
-            this.x = x;
-            this.y = y;
-            this.z = z;
-            this.adjecentNodes = adjecentNodes;
-        }
+        ArrayList<Integer> adjacentNodes = new ArrayList<>();
     }
 
     public void InitialiseNetwork(){
-        int fileLength = 0;
-        try {
-             fileLength = countLines("network.txt");
-        } catch (IOException e){
-
-        }
-        if (fileLength > 0){
-
-        }
+        String filename = "network.txt";
+        try{
+            FileReader fileReader = new FileReader(filename);
+            try{
+                BufferedReader buffer = new BufferedReader(fileReader);
+                String l;
+                while ((l = buffer.readLine()) != null){
+                    String elements[] = l.split(",");
+                    Node currentNode = new Node();
+                    currentNode.nodeID = Integer.parseInt(elements[0]);
+                    currentNode.identifier = elements[1];
+                    currentNode.x = Integer.parseInt(elements[2]);
+                    currentNode.y = Integer.parseInt(elements[3]);
+                    currentNode.z = Integer.parseInt(elements[4]);
+                    ArrayList<Integer> adjacentNodes = new ArrayList<>();
+                    for (int i = 5; i < elements.length; i++) {
+                        adjacentNodes.add(Integer.parseInt(elements[i]));
+                    }
+                    currentNode.adjacentNodes = adjacentNodes;
+                    network.add(currentNode);
+                }
+            } finally {
+                fileReader.close();
+            }
+        } catch (IOException e){}
     }
 
     public static int countLines(String filename) throws IOException {

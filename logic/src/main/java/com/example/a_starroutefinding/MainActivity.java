@@ -13,7 +13,7 @@ public class MainActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
+        Global.InitialiseNetwork();
 
         Button options = (Button) findViewById(R.id.options);
         options.setOnClickListener(new View.OnClickListener() {
