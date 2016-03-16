@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity{
             @Override
             public void onClick(View view) {
                 Global.locationStage = 0;
-                Intent start = new Intent(MainActivity.this, places2.class);
+                Intent start = new Intent(MainActivity.this, Places.class);
                 startActivity(start);
             }
         });

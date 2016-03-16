@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
-public class places2 extends AppCompatActivity{
+public class Places extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,7 +36,7 @@ public class places2 extends AppCompatActivity{
             if (Global.locationStage == 0) {
                 Global.startLocation = placeName;
                 Global.locationStage = 1;
-                Intent start = new Intent(places2.this, places2.class);
+                Intent start = new Intent(Places.this, Places.class);
                 startActivity(start);
                 finish();
             } else {

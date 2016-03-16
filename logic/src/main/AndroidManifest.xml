@@ -26,7 +26,7 @@
             android:label="@string/title_activity_options"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".places2"
+            android:name=".Places"
             android:label="@string/title_activity_places"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
