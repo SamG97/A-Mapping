@@ -21,7 +21,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-public class options2 extends AppCompatActivity {
+public class Options extends AppCompatActivity {
 
     public Boolean stairOption = false;
 

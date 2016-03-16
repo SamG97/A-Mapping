@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity{
         options.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, options2.class));
+                startActivity(new Intent(MainActivity.this, Options.class));
             }
         });
 
@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity{
             @Override
             public void onClick(View view) {
                 Global.locationStage = 0;
-                Intent start = new Intent(MainActivity.this, places.class);
+                Intent start = new Intent(MainActivity.this, places2.class);
                 startActivity(start);
             }
         });

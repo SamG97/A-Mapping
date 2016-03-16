@@ -22,11 +22,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".options2"
+            android:name=".Options"
             android:label="@string/title_activity_options"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".places"
+            android:name=".places2"
             android:label="@string/title_activity_places"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
