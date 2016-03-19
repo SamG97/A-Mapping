@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -51,14 +52,16 @@ public class Global {
     }
 
     public ArrayList<String> RouteFind(String startLocation, String targetLocation){
+        InitialiseNetwork();
+
         ArrayList<String> route = new ArrayList<>();
         ArrayList<Integer> startNodes = new ArrayList<>();
         ArrayList<Integer> targetNodes = new ArrayList<>();
         for (int i = 0; i < network.size(); i++){
-            if (network.get(i).identifier == startLocation){
+            if (network.get(i).identifier.equals(startLocation)){
                 startNodes.add(i);
             }
-            if (network.get(i).identifier == targetLocation){
+            if (network.get(i).identifier.equals(targetLocation)){
                 targetNodes.add(i);
             }
         }
@@ -68,7 +71,7 @@ public class Global {
 
         double bestLength = Double.POSITIVE_INFINITY;
         ArrayList<Integer> bestRoute = new ArrayList<>();
-        ArrayList<Integer> potentialRoute = new ArrayList<>();
+        ArrayList<Integer> potentialRoute;
         for (int i = 0; i < startNodes.size(); i++){
             for (int j = 0; i < targetNodes.size(); j++){
                 potentialRoute = AStar(startNodes.get(i),targetNodes.get(j));
@@ -84,13 +87,13 @@ public class Global {
     }
 
     public ArrayList<Integer> AStar(int startNode, int targetNode){
-        int currentNode = startNode;
+        int currentNode;
         ArrayList<Integer> potentialNodes = new ArrayList<>();
         potentialNodes.add(startNode);
         ArrayList<Integer> visitedNodes = new ArrayList<>();
-        Map<Integer,Integer> path = new HashMap<>();
-        Map<Integer,Double> fScore = new HashMap<>();
-        Map<Integer,Double> gScore = new HashMap<>();
+        Map<Integer, Integer> path = new HashMap<>();
+        Map<Integer, Double> fScore = new HashMap<>();
+        Map<Integer, Double> gScore = new HashMap<>();
 
         for (int i = 0; i < network.size(); i++){
             if (network.get(i).nodeID == startNode){
@@ -112,26 +115,108 @@ public class Global {
                 }
             }
             currentNode = bestNode;
+
+            if (currentNode == targetNode){
+                return CreatePath(path, currentNode);
+            }
+
+            for (int i = 0; i < potentialNodes.size(); i++){
+                if (potentialNodes.get(i) == currentNode){
+                    potentialNodes.remove(i);
+                    break;
+                }
+            }
+            visitedNodes.add(currentNode);
+
+            for (int i = 0; i < network.get(currentNode).adjacentNodes.size(); i++){
+                int testNode = network.get(currentNode).adjacentNodes.get(i);
+                if (visitedNodes.contains(testNode)){
+                    continue;
+                }
+
+                double trialGScore = gScore.get(currentNode) + 1;
+                if (trialGScore >= gScore.get(testNode)){
+                    continue;
+                }
+
+                if (!potentialNodes.contains(testNode)){
+                    potentialNodes.add(testNode);
+                }
+                path.put(testNode, currentNode);
+                gScore.put(testNode, trialGScore);
+                fScore.put(testNode, (trialGScore) + StraightDistance(testNode, targetNode));
+            }
         }
-
-
-
         return null;
+    }
 
-        //http://pastebin.com/upA1b6zx
+    public ArrayList<Integer> CreatePath(Map<Integer, Integer> path, int currentNode){
+        ArrayList<Integer> completePath = new ArrayList<>();
+        completePath.add(currentNode);
+        while (path.containsKey(currentNode)){
+            currentNode = path.get(currentNode);
+            completePath.add(currentNode);
+        }
+        Collections.reverse(completePath);
+        return completePath;
     }
 
     public double StraightDistance(int start, int end){
-        int deltaX = network.get(start).x - network.get(end).x;
-        int deltaY = network.get(start).y - network.get(end).y;
-        int deltaZ = network.get(start).z - network.get(end).z;
-        double distance = Math.pow((Math.pow(deltaX, 2) + Math.pow(deltaY, 2) + Math.pow(deltaZ, 2)), 0.5);
-        return distance;
+        int deltaX = network.get(end).x - network.get(start).x;
+        int deltaY = network.get(end).y - network.get(start).y;
+        int deltaZ = network.get(end).z - network.get(start).z;
+        return Math.pow((Math.pow(deltaX, 2) + Math.pow(deltaY, 2) + Math.pow(deltaZ, 2)), 0.5);
     }
 
-    public ArrayList<String> GetDirections(ArrayList<Integer> route){
-        return null;
+    public ArrayList<String> GetDirections(ArrayList<Integer> path){
+        ArrayList<String> directionList = new ArrayList<>();
+        int straightDistance = 1;
+        if (path.size() == 2){
+            directionList.add("Go forward 1 metres to your destination");
+        } else if (path.size() < 2) {
+            directionList.add("You are at your destination already");
+        } else {
+            int previousDirection = CardinalDirection(path.get(0), path.get(1));
+            for (int i = 0; i < (path.size() - 2); i++){
+                int newDirection = CardinalDirection(path.get(i), path.get(i + 1));
+                if (previousDirection == newDirection){
+                    straightDistance++;
+                    continue;
+                }
 
-        //http://pastebin.com/1k51W1fg
+                directionList.add("Go forward " + Integer.toString(straightDistance) + " metres");
+                straightDistance = 1;
+                String instruction = "Turn ";
+                if (newDirection > previousDirection | (newDirection == 1 & previousDirection == 4)){
+                    instruction = instruction + "right";
+                } else {
+                    instruction = instruction + "left";
+                }
+
+                String label = network.get(path.get(i)).identifier;
+                if (label != null){
+                    instruction = instruction + " by " + label;
+                }
+                directionList.add(instruction);
+            }
+        }
+        directionList.add("Go forward " + Integer.toString(straightDistance) + " metres to your destination");
+        return directionList;
+    }
+
+    public int CardinalDirection(int startNode, int endNode){
+        if (network.get(startNode).x == network.get(endNode).x){
+            if (network.get(startNode).y > network.get(endNode).y){
+                return 3;
+            } else {
+                return 1;
+            }
+        } else {
+            if (network.get(startNode).x > network.get(endNode).x){
+                return 4;
+            } else {
+                return 2;
+            }
+        }
     }
 }
