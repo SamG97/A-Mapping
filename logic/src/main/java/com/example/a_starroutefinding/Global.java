@@ -1,11 +1,15 @@
 package com.example.a_starroutefinding;
 
+import android.widget.Toast;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -23,15 +27,52 @@ public class Global {
         ArrayList<Integer> adjacentNodes = new ArrayList<>();
     }
 
+    public static boolean readStairOption() {
+        boolean stairOption = false;
+        try {
+            String ReadMessage;
+            FileInputStream fileInputStream = new FileInputStream("settings.txt");
+            InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
+            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+            ReadMessage = bufferedReader.readLine();
+            stairOption = Boolean.valueOf(ReadMessage);
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+        return stairOption;
+    }
+
+    public static boolean readStairOption2(){
+        boolean stairOption = false;
+        try {
+            FileReader fileReader = new FileReader("settings.txt");
+            try {
+                String line;
+                BufferedReader bufferedReader = new BufferedReader(fileReader);
+                line = bufferedReader.readLine();
+                stairOption = Boolean.valueOf(line);
+
+            } finally {
+                fileReader.close();
+            }
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+        return stairOption;
+    }
+
     public static void InitialiseNetwork(){
         String filename = "network.txt";
+        if (readStairOption()){
+            filename = "network_no_stairs.txt";
+        }
         try{
             FileReader fileReader = new FileReader(filename);
             try{
                 BufferedReader buffer = new BufferedReader(fileReader);
-                String l;
-                while ((l = buffer.readLine()) != null){
-                    String elements[] = l.split(",");
+                String line;
+                while ((line = buffer.readLine()) != null){
+                    String elements[] = line.split(",");
                     Node currentNode = new Node();
                     currentNode.nodeID = Integer.parseInt(elements[0]);
                     currentNode.identifier = elements[1];
@@ -48,7 +89,9 @@ public class Global {
             } finally {
                 fileReader.close();
             }
-        } catch (IOException e){}
+        } catch (IOException e){
+            e.printStackTrace();
+        }
     }
 
     public ArrayList<String> RouteFind(String startLocation, String targetLocation){

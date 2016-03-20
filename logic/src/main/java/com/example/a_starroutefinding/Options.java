@@ -17,6 +17,7 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -40,32 +41,29 @@ public class Options extends AppCompatActivity {
                     FileOutputStream fileOutputStream = openFileOutput("settings.txt", MODE_PRIVATE);
                     fileOutputStream.write(WriteMessage.getBytes());
                     fileOutputStream.close();
-                } catch (FileNotFoundException e){
+                } catch (IOException e){
                     e.printStackTrace();
-                } catch (IOException f){
-                    f.printStackTrace();
                 }
                 finish();
             }
         });
+
+
 
         try {
             String ReadMessage;
             FileInputStream fileInputStream = openFileInput("settings.txt");
             InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
             BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-            ReadMessage=bufferedReader.readLine();
+            ReadMessage = bufferedReader.readLine();
             stairOption = Boolean.valueOf(ReadMessage);
-        } catch (FileNotFoundException e){
+        } catch (IOException e){
             e.printStackTrace();
-        } catch (IOException f){
-            f.printStackTrace();
         }
         stairs.setChecked(stairOption);
         stairs.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {stairOption = !stairOption;
-            }
+            public void onClick(View view) {stairOption = !stairOption;}
         });
     }
 
