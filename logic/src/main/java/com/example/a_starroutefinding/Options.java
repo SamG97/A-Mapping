@@ -1,26 +1,13 @@
 package com.example.a_starroutefinding;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Environment;
-import android.support.annotation.RequiresPermission;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Switch;
-import android.widget.Toast;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 
 public class Options extends AppCompatActivity {
 
@@ -48,23 +35,11 @@ public class Options extends AppCompatActivity {
             }
         });
 
-
-
-        try {
-            String ReadMessage;
-            FileInputStream fileInputStream = openFileInput("settings.txt");
-            InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
-            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-            ReadMessage = bufferedReader.readLine();
-            stairOption = Boolean.valueOf(ReadMessage);
-        } catch (IOException e){
-            e.printStackTrace();
-        }
+        stairOption = Global.ReadStairOption(this);
         stairs.setChecked(stairOption);
         stairs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {stairOption = !stairOption;}
         });
     }
-
 }

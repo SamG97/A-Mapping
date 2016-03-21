@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
+import java.util.ArrayList;
+
 public class Places extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,11 +40,9 @@ public class Places extends AppCompatActivity{
                 Global.locationStage = 1;
                 Intent start = new Intent(Places.this, Places.class);
                 startActivity(start);
-                finish();
             } else {
                 Global.targetLocation = placeName;
                 Global.mainActivity.CalculateRoute();
-                finish();
             }
         }
         finish();
@@ -135,14 +135,85 @@ public class Places extends AppCompatActivity{
         a.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                RoomNumber();
+                RoomNumber("A");
             }
         });
 
+        Button b = (Button) findViewById(R.id.b);
+        b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                RoomNumber("B");
+            }
+        });
 
+        Button c = (Button) findViewById(R.id.c);
+        c.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                RoomNumber("C");
+            }
+        });
+
+        Button d = (Button) findViewById(R.id.d);
+        d.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                RoomNumber("D");
+            }
+        });
+
+        Button e = (Button) findViewById(R.id.e);
+        e.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                RoomNumber("E");
+            }
+        });
+
+        Button f = (Button) findViewById(R.id.f);
+        f.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                RoomNumber("F");
+            }
+        });
+
+        Button j = (Button) findViewById(R.id.j);
+        j.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                RoomNumber("J");
+            }
+        });
+
+        Button l = (Button) findViewById(R.id.l);
+        l.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                RoomNumber("L");
+            }
+        });
+
+        Button m = (Button) findViewById(R.id.m);
+        m.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                RoomNumber("M");
+            }
+        });
+
+        Button s = (Button) findViewById(R.id.s);
+        s.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                RoomNumber("S");
+            }
+        });
     }
 
-    protected void RoomNumber(){
-
+    protected void RoomNumber(String block){
+        ArrayList<Integer> aBlock = new ArrayList<>();
+        aBlock.add(1);
     }
 }
