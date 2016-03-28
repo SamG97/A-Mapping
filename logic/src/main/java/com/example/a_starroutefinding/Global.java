@@ -1,14 +1,10 @@
 package com.example.a_starroutefinding;
 
-import android.widget.Toast;
+import android.support.v7.app.AppCompatActivity;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -27,11 +23,10 @@ public class Global {
         ArrayList<Integer> adjacentNodes = new ArrayList<>();
     }
 
-    public static boolean readStairOption() {
+    public static boolean ReadStairOption(AppCompatActivity activity) {
         boolean stairOption = false;
-        try {
+        try (FileInputStream fileInputStream = activity.openFileInput("settings.txt")){
             String ReadMessage;
-            FileInputStream fileInputStream = new FileInputStream("settings.txt");
             InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
             BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
             ReadMessage = bufferedReader.readLine();
@@ -42,60 +37,37 @@ public class Global {
         return stairOption;
     }
 
-    public static boolean readStairOption2(){
-        boolean stairOption = false;
-        try {
-            FileReader fileReader = new FileReader("settings.txt");
-            try {
-                String line;
-                BufferedReader bufferedReader = new BufferedReader(fileReader);
-                line = bufferedReader.readLine();
-                stairOption = Boolean.valueOf(line);
-
-            } finally {
-                fileReader.close();
-            }
-        } catch (IOException e){
-            e.printStackTrace();
-        }
-        return stairOption;
-    }
-
-    public static void InitialiseNetwork(){
+    public static void InitialiseNetwork(AppCompatActivity activity){
         String filename = "network.txt";
-        if (readStairOption()){
+        if (ReadStairOption(activity)){
             filename = "network_no_stairs.txt";
         }
-        try{
-            FileReader fileReader = new FileReader(filename);
-            try{
-                BufferedReader buffer = new BufferedReader(fileReader);
-                String line;
-                while ((line = buffer.readLine()) != null){
-                    String elements[] = line.split(",");
-                    Node currentNode = new Node();
-                    currentNode.nodeID = Integer.parseInt(elements[0]);
-                    currentNode.identifier = elements[1];
-                    currentNode.x = Integer.parseInt(elements[2]);
-                    currentNode.y = Integer.parseInt(elements[3]);
-                    currentNode.z = Integer.parseInt(elements[4]);
-                    ArrayList<Integer> adjacentNodes = new ArrayList<>();
-                    for (int i = 5; i < elements.length; i++) {
-                        adjacentNodes.add(Integer.parseInt(elements[i]));
-                    }
-                    currentNode.adjacentNodes = adjacentNodes;
-                    network.add(currentNode);
+        try(FileInputStream fileInputStream = activity.openFileInput(filename)) {
+            InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
+            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                String elements[] = line.split(",");
+                Node currentNode = new Node();
+                currentNode.nodeID = Integer.parseInt(elements[0]);
+                currentNode.identifier = elements[1];
+                currentNode.x = Integer.parseInt(elements[2]);
+                currentNode.y = Integer.parseInt(elements[3]);
+                currentNode.z = Integer.parseInt(elements[4]);
+                ArrayList<Integer> adjacentNodes = new ArrayList<>();
+                for (int i = 5; i < elements.length; i++) {
+                    adjacentNodes.add(Integer.parseInt(elements[i]));
                 }
-            } finally {
-                fileReader.close();
+                currentNode.adjacentNodes = adjacentNodes;
+                network.add(currentNode);
             }
         } catch (IOException e){
             e.printStackTrace();
         }
     }
 
-    public ArrayList<String> RouteFind(String startLocation, String targetLocation){
-        InitialiseNetwork();
+    public ArrayList<String> RouteFind(AppCompatActivity activity, String startLocation, String targetLocation){
+        InitialiseNetwork(activity);
 
         ArrayList<String> route = new ArrayList<>();
         ArrayList<Integer> startNodes = new ArrayList<>();
