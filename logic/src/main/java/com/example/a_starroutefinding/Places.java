@@ -221,27 +221,27 @@ public class Places extends AppCompatActivity{
 
     protected void RoomNumber(String block){
         setContentView(R.layout.room_numbers);
-        int[] rooms = {};
+        Integer[] rooms = {};
         switch(block){
-            case "A": rooms = new int[] {1,2,3,4};
+            case "A": rooms = new Integer[] {1,2,3,4};
                 break;
-            case "B": rooms = new int[] {1,2,3,4,5,6,7,8,10,11,12,13,14,15,16};
+            case "B": rooms = new Integer[] {1,2,3,4,5,6,7,8,10,11,12,13,14,15,16};
                 break;
-            case "C": rooms = new int[] {2,3,4,5,6,7,8,9};
+            case "C": rooms = new Integer[] {2,3,4,5,6,7,8,9};
                 break;
-            case "D": rooms = new int[] {2,3,4,5,6,7};
+            case "D": rooms = new Integer[] {2,3,4,5,6,7};
                 break;
-            case "E": rooms = new int[] {1,12,13,20,21,22,23,24,30,31,32,33,34};
+            case "E": rooms = new Integer[] {1,12,13,20,21,22,23,24,30,31,32,33,34};
                 break;
-            case "F": rooms = new int[] {1,2,3,4,5,10,11,12,13,14,15,16,17,18};
+            case "F": rooms = new Integer[] {1,2,3,4,5,10,11,12,13,14,15,16,17,18};
                 break;
-            case "J": rooms = new int[] {1,10,11,12};
+            case "J": rooms = new Integer[] {1,10,11,12};
                 break;
-            case "L": rooms = new int[] {1,2,3,4,5};
+            case "L": rooms = new Integer[] {1,2,3,4,5};
                 break;
-            case "M": rooms = new int[] {1,2,3,4,5,6};
+            case "M": rooms = new Integer[] {1,2,3,4,5,6};
                 break;
-            case "S": rooms = new int[] {2,3};
+            case "S": rooms = new Integer[] {2,3};
                 break;
         }
 
@@ -260,7 +260,7 @@ public class Places extends AppCompatActivity{
             a1.setVisibility(View.GONE);
         }
 
-        Button a2 = (Button) findViewById(R.id.a1);
+        Button a2 = (Button) findViewById(R.id.a2);
         if (Arrays.asList(rooms).contains(2)){
             a2.setVisibility(View.VISIBLE);
             a2.setOnClickListener(new View.OnClickListener() {
@@ -365,7 +365,7 @@ public class Places extends AppCompatActivity{
         }
 
         Button a10 = (Button) findViewById(R.id.a10);
-        if (Arrays.asList(rooms).contains(6)){
+        if (Arrays.asList(rooms).contains(10)){
             a10.setVisibility(View.VISIBLE);
             a10.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -405,8 +405,8 @@ public class Places extends AppCompatActivity{
 
         Button a13 = (Button) findViewById(R.id.a13);
         if (Arrays.asList(rooms).contains(13)){
-            a6.setVisibility(View.VISIBLE);
-            a6.setOnClickListener(new View.OnClickListener() {
+            a13.setVisibility(View.VISIBLE);
+            a13.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     ReturnPlace(blockName + "13");

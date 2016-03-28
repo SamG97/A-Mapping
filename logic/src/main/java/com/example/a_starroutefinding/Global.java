@@ -14,12 +14,12 @@ import java.util.Map;
 public class Global {
     static MainActivity mainActivity = null;
     static int locationStage = 0;
-    static String startLocation,targetLocation = "";
+    static String startLocation, targetLocation = "";
     static ArrayList<Node> network = new ArrayList<>();
 
     public static class Node {
         public String identifier = "";
-        public int nodeID,x,y,z = 0;
+        public int nodeID, x, y,z = 0;
         ArrayList<Integer> adjacentNodes = new ArrayList<>();
     }
 
@@ -149,7 +149,7 @@ public class Global {
                     continue;
                 }
 
-                double trialGScore = gScore.get(currentNode) + 1;
+                double trialGScore = gScore.get(currentNode) + StraightDistance(currentNode, testNode);
                 if (trialGScore >= gScore.get(testNode)){
                     continue;
                 }
@@ -194,8 +194,18 @@ public class Global {
             int previousDirection = CardinalDirection(path.get(0), path.get(1));
             for (int i = 0; i < (path.size() - 2); i++){
                 int newDirection = CardinalDirection(path.get(i), path.get(i + 1));
+                if (network.get(path.get(i)).z != network.get(path.get(i + 1)).z){
+                    directionList.add("Go forward " + Integer.toString(straightDistance) + " metres");
+                    straightDistance = 1;
+                    if (network.get(path.get(i)).z < network.get(path.get(i + 1)).z){
+                        directionList.add("Go up the stairs " + Double.toString(StraightDistance(path.get(i),path.get(i + 1))) + " metres");
+                    } else {
+                        directionList.add("Go down the stairs " + Double.toString(StraightDistance(path.get(i),path.get(i + 1))) + " metres");
+                    }
+                }
+
                 if (previousDirection == newDirection){
-                    straightDistance++;
+                    straightDistance += StraightDistance(path.get(i),path.get(i + 1));
                     continue;
                 }
 
