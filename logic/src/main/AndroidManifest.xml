@@ -25,6 +25,10 @@
         <activity
             android:name=".Places"
             android:label="@string/title_activity_places"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".DisplayRoute"
+            android:label="@string/title_activity_display_route"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

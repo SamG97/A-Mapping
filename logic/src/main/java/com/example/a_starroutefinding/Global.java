@@ -1,6 +1,7 @@
 package com.example.a_starroutefinding;
 
 import android.support.v7.app.AppCompatActivity;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -19,7 +20,7 @@ public class Global {
 
     public static class Node {
         public String identifier = "";
-        public int nodeID, x, y,z = 0;
+        public int nodeID, x, y, z = 0;
         ArrayList<Integer> adjacentNodes = new ArrayList<>();
     }
 
@@ -39,11 +40,9 @@ public class Global {
 
     public static void InitialiseNetwork(AppCompatActivity activity){
         String filename = "network.txt";
-        if (ReadStairOption(activity)){
-            filename = "network_no_stairs.txt";
-        }
-        try(FileInputStream fileInputStream = activity.openFileInput(filename)) {
-            InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
+        try(FileInputStream fileInputStream = activity.openFileInput("network.txt")) {
+            Toast.makeText(activity.getApplicationContext(),"Opened file",Toast.LENGTH_SHORT).show();
+            /*InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
             BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
             String line;
             while ((line = bufferedReader.readLine()) != null) {
@@ -60,23 +59,23 @@ public class Global {
                 }
                 currentNode.adjacentNodes = adjacentNodes;
                 network.add(currentNode);
-            }
+            }*/
         } catch (IOException e){
             e.printStackTrace();
         }
     }
 
-    public ArrayList<String> RouteFind(AppCompatActivity activity, String startLocation, String targetLocation){
+    public static ArrayList<String> RouteFind(AppCompatActivity activity){
         InitialiseNetwork(activity);
 
         ArrayList<String> route = new ArrayList<>();
         ArrayList<Integer> startNodes = new ArrayList<>();
         ArrayList<Integer> targetNodes = new ArrayList<>();
         for (int i = 0; i < network.size(); i++){
-            if (network.get(i).identifier.equals(startLocation)){
+            if (network.get(i).identifier.equals(startLocation) | network.get(i).identifier.contains(startLocation + "/") | network.get(i).identifier.contains("/" + startLocation)){
                 startNodes.add(i);
             }
-            if (network.get(i).identifier.equals(targetLocation)){
+            if (network.get(i).identifier.equals(targetLocation) | network.get(i).identifier.contains(targetLocation + "/") | network.get(i).identifier.contains("/" + targetLocation)){
                 targetNodes.add(i);
             }
         }
@@ -89,19 +88,31 @@ public class Global {
         ArrayList<Integer> potentialRoute;
         for (int i = 0; i < startNodes.size(); i++){
             for (int j = 0; i < targetNodes.size(); j++){
-                potentialRoute = AStar(startNodes.get(i),targetNodes.get(j));
-                if (potentialRoute.size() < bestLength){
+                potentialRoute = AStar(activity, startNodes.get(i),targetNodes.get(j));
+                if (RouteLength(potentialRoute) < bestLength){
                     bestRoute = potentialRoute;
-                    bestLength = potentialRoute.size();
+                    bestLength = RouteLength(potentialRoute);
                 }
             }
         }
 
+        if (bestRoute.size() == 0){
+            return null;
+        }
         route = GetDirections(bestRoute);
         return route;
     }
 
-    public ArrayList<Integer> AStar(int startNode, int targetNode){
+    public static int RouteLength(ArrayList<Integer> route){
+        int length = 0;
+        for (int i = 1; i < route.size(); i++){
+            length += StraightDistance(i - 1, i);
+        }
+        return length;
+    }
+
+    public static ArrayList<Integer> AStar(AppCompatActivity activity, int startNode, int targetNode){
+        Boolean stairOption = ReadStairOption(activity);
         int currentNode;
         ArrayList<Integer> potentialNodes = new ArrayList<>();
         potentialNodes.add(startNode);
@@ -149,6 +160,10 @@ public class Global {
                     continue;
                 }
 
+                if (stairOption & network.get(currentNode).z != network.get(testNode).z & !(currentNode == 179 | currentNode == 180)){
+                    continue;
+                }
+
                 double trialGScore = gScore.get(currentNode) + StraightDistance(currentNode, testNode);
                 if (trialGScore >= gScore.get(testNode)){
                     continue;
@@ -165,7 +180,7 @@ public class Global {
         return null;
     }
 
-    public ArrayList<Integer> CreatePath(Map<Integer, Integer> path, int currentNode){
+    public static ArrayList<Integer> CreatePath(Map<Integer, Integer> path, int currentNode){
         ArrayList<Integer> completePath = new ArrayList<>();
         completePath.add(currentNode);
         while (path.containsKey(currentNode)){
@@ -176,14 +191,14 @@ public class Global {
         return completePath;
     }
 
-    public double StraightDistance(int start, int end){
+    public static double StraightDistance(int start, int end){
         int deltaX = network.get(end).x - network.get(start).x;
         int deltaY = network.get(end).y - network.get(start).y;
         int deltaZ = network.get(end).z - network.get(start).z;
         return Math.pow((Math.pow(deltaX, 2) + Math.pow(deltaY, 2) + Math.pow(deltaZ, 2)), 0.5);
     }
 
-    public ArrayList<String> GetDirections(ArrayList<Integer> path){
+    public static ArrayList<String> GetDirections(ArrayList<Integer> path){
         ArrayList<String> directionList = new ArrayList<>();
         int straightDistance = 1;
         if (path.size() == 2){
@@ -229,7 +244,7 @@ public class Global {
         return directionList;
     }
 
-    public int CardinalDirection(int startNode, int endNode){
+    public static int CardinalDirection(int startNode, int endNode){
         if (network.get(startNode).x == network.get(endNode).x){
             if (network.get(startNode).y > network.get(endNode).y){
                 return 3;

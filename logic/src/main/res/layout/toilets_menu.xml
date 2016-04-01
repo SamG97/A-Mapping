@@ -1,28 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:weightSum="1">
+    android:fitsSystemWindows="true">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical" android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="1">
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Common Places"
-        android:id="@+id/common"
+        android:text="Men's Toilets"
+        android:id="@+id/men"
         android:layout_weight="0.15" />
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Classroom"
-        android:id="@+id/classroom"
+        android:text="Women's Toilets"
+        android:id="@+id/women"
         android:layout_weight="0.15" />
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Toilet"
-        android:id="@+id/toilet"
+        android:text="Disabled Toilet"
+        android:id="@+id/disabled"
         android:layout_weight="0.15" />
 
     <Button
@@ -31,4 +36,5 @@
         android:text="Back"
         android:id="@+id/back"
         android:layout_weight="0.05" />
-</LinearLayout>
+    </LinearLayout>
+</android.support.design.widget.CoordinatorLayout>

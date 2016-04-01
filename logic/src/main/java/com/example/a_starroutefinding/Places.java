@@ -11,13 +11,16 @@ public class Places extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        MainPlaceMenu();
+    }
+
+    protected void MainPlaceMenu(){
         setContentView(R.layout.activity_places);
 
         Button commonPlaces = (Button) findViewById(R.id.common);
         commonPlaces.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setContentView(R.layout.common_places);
                 CommonPlacesMenu();
             }
         });
@@ -26,8 +29,24 @@ public class Places extends AppCompatActivity{
         classroom_block.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setContentView(R.layout.classroom_block);
                 ClassroomBlockMenu();
+            }
+        });
+
+        Button toilets = (Button) findViewById(R.id.toilet);
+        toilets.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ToiletMenu();
+            }
+        });
+
+        Button back = (Button) findViewById(R.id.back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Global.locationStage = 0;
+                finish();
             }
         });
     }
@@ -41,13 +60,16 @@ public class Places extends AppCompatActivity{
                 startActivity(start);
             } else {
                 Global.targetLocation = placeName;
-                Global.mainActivity.CalculateRoute();
+                Intent start = new Intent(Places.this, DisplayRoute.class);
+                startActivity(start);
+                /*Global.mainActivity.CalculateRoute();*/
             }
         }
         finish();
     }
 
     protected void CommonPlacesMenu() {
+        setContentView(R.layout.common_places);
         Button reception = (Button) findViewById(R.id.reception);
         reception.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,9 +157,34 @@ public class Places extends AppCompatActivity{
                 ReturnPlace("Library");
             }
         });
+
+        Button staff = (Button) findViewById(R.id.staff);
+        staff.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ReturnPlace("Staff Corridor");
+            }
+        });
+
+        Button asd = (Button) findViewById(R.id.asd);
+        asd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ReturnPlace("ASD Department");
+            }
+        });
+
+        Button back = (Button) findViewById(R.id.back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MainPlaceMenu();
+            }
+        });
     }
 
     protected void ClassroomBlockMenu(){
+        setContentView(R.layout.classroom_block);
         Button a = (Button) findViewById(R.id.a);
         a.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -178,14 +225,6 @@ public class Places extends AppCompatActivity{
             }
         });
 
-        Button f = (Button) findViewById(R.id.f);
-        f.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                RoomNumber("F");
-            }
-        });
-
         Button j = (Button) findViewById(R.id.j);
         j.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -217,6 +256,50 @@ public class Places extends AppCompatActivity{
                 RoomNumber("S");
             }
         });
+
+        Button back = (Button) findViewById(R.id.back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MainPlaceMenu();
+            }
+        });
+    }
+
+    protected void ToiletMenu(){
+        setContentView(R.layout.toilets_menu);
+
+        Button men = (Button) findViewById(R.id.men);
+        men.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ReturnPlace("Men's Toilets");
+            }
+        });
+
+        Button women = (Button) findViewById(R.id.women);
+        women.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ReturnPlace("Women's Toilets");
+            }
+        });
+
+        Button disabled = (Button) findViewById(R.id.disabled);
+        disabled.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ReturnPlace("Disabled Toilets");
+            }
+        });
+
+        Button back = (Button) findViewById(R.id.back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MainPlaceMenu();
+            }
+        });
     }
 
     protected void RoomNumber(String block){
@@ -233,15 +316,13 @@ public class Places extends AppCompatActivity{
                 break;
             case "E": rooms = new Integer[] {1,12,13,20,21,22,23,24,30,31,32,33,34};
                 break;
-            case "F": rooms = new Integer[] {1,2,3,4,5,10,11,12,13,14,15,16,17,18};
-                break;
             case "J": rooms = new Integer[] {1,10,11,12};
                 break;
             case "L": rooms = new Integer[] {1,2,3,4,5};
                 break;
-            case "M": rooms = new Integer[] {1,2,3,4,5,6};
+            case "M": rooms = new Integer[] {1,3,4,5,6};
                 break;
-            case "S": rooms = new Integer[] {2,3};
+            case "S": rooms = new Integer[] {2,11};
                 break;
         }
 
@@ -610,5 +691,13 @@ public class Places extends AppCompatActivity{
         } else {
             a34.setVisibility(View.GONE);
         }
+
+        Button back = (Button) findViewById(R.id.back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ClassroomBlockMenu();
+            }
+        });
     }
 }

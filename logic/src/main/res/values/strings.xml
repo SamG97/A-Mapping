@@ -16,5 +16,6 @@
     <string name="title_activity_location_chooser">location_chooser</string>
     <string name="title_activity_places">places</string>
     <string name="title_activity_main2">Main2Activity</string>
+    <string name="title_activity_display_route">DisplayRoute</string>
 </resources>
 

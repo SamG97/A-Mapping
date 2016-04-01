@@ -17,7 +17,8 @@ public class MainActivity extends AppCompatActivity{
         options.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, Options.class));
+                Intent start = new Intent(MainActivity.this, Options.class);
+                startActivity(start);
             }
         });
 
@@ -35,6 +36,8 @@ public class MainActivity extends AppCompatActivity{
     }
 
     public void CalculateRoute(){
-        Toast.makeText(getApplicationContext(),"Worked",Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(),Global.startLocation + " " + Global.targetLocation,Toast.LENGTH_SHORT).show();
+
+        /*Global.RouteFind(this);*/
     }
 }
