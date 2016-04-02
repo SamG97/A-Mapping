@@ -7,9 +7,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+
 public class MainActivity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Global.InitialiseNetwork(this);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 

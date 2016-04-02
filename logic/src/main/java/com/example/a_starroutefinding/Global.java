@@ -40,9 +40,8 @@ public class Global {
 
     public static void InitialiseNetwork(AppCompatActivity activity){
         String filename = "network.txt";
-        try(FileInputStream fileInputStream = activity.openFileInput("network.txt")) {
-            Toast.makeText(activity.getApplicationContext(),"Opened file",Toast.LENGTH_SHORT).show();
-            /*InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
+        try(FileInputStream fileInputStream = activity.openFileInput(filename)) {
+            InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
             BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
             String line;
             while ((line = bufferedReader.readLine()) != null) {
@@ -59,26 +58,26 @@ public class Global {
                 }
                 currentNode.adjacentNodes = adjacentNodes;
                 network.add(currentNode);
-            }*/
+            }
         } catch (IOException e){
             e.printStackTrace();
         }
     }
 
     public static ArrayList<String> RouteFind(AppCompatActivity activity){
-        InitialiseNetwork(activity);
-
         ArrayList<String> route = new ArrayList<>();
         ArrayList<Integer> startNodes = new ArrayList<>();
         ArrayList<Integer> targetNodes = new ArrayList<>();
         for (int i = 0; i < network.size(); i++){
             if (network.get(i).identifier.equals(startLocation) | network.get(i).identifier.contains(startLocation + "/") | network.get(i).identifier.contains("/" + startLocation)){
                 startNodes.add(i);
+                Toast.makeText(activity.getApplicationContext(),network.get(i).identifier,Toast.LENGTH_SHORT).show();
             }
             if (network.get(i).identifier.equals(targetLocation) | network.get(i).identifier.contains(targetLocation + "/") | network.get(i).identifier.contains("/" + targetLocation)){
                 targetNodes.add(i);
             }
         }
+        return route;/*
         if (startNodes.size() == 0 | targetNodes.size()== 0){
             return route;
         }
@@ -100,7 +99,7 @@ public class Global {
             return null;
         }
         route = GetDirections(bestRoute);
-        return route;
+        return route;*/
     }
 
     public static int RouteLength(ArrayList<Integer> route){
