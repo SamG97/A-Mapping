@@ -5,10 +5,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
-
-import java.io.FileOutputStream;
-import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity{
     @Override
@@ -38,11 +34,5 @@ public class MainActivity extends AppCompatActivity{
         });
 
         Global.mainActivity = this;
-    }
-
-    public void CalculateRoute(){
-        Toast.makeText(getApplicationContext(),Global.startLocation + " " + Global.targetLocation,Toast.LENGTH_SHORT).show();
-
-        /*Global.RouteFind(this);*/
     }
 }

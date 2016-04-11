@@ -62,7 +62,6 @@ public class Places extends AppCompatActivity{
                 Global.targetLocation = placeName;
                 Intent start = new Intent(Places.this, DisplayRoute.class);
                 startActivity(start);
-                /*Global.mainActivity.CalculateRoute();*/
             }
         }
         finish();

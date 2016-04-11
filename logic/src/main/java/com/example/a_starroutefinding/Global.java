@@ -3,7 +3,6 @@ package com.example.a_starroutefinding;
 import android.app.Activity;
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -75,22 +74,22 @@ public class Global {
         for (int i = 0; i < network.size(); i++){
             if (network.get(i).identifier.equals(startLocation) || network.get(i).identifier.contains(startLocation + "/") || network.get(i).identifier.contains("/" + startLocation)){
                 startNodes.add(i);
-                Toast.makeText(activity.getApplicationContext(),network.get(i).identifier,Toast.LENGTH_SHORT).show();
             }
             if (network.get(i).identifier.equals(targetLocation) || network.get(i).identifier.contains(targetLocation + "/") || network.get(i).identifier.contains("/" + targetLocation)){
                 targetNodes.add(i);
-                Toast.makeText(activity.getApplicationContext(),network.get(i).identifier,Toast.LENGTH_SHORT).show();
             }
         }
         if (startNodes.size() == 0 || targetNodes.size()== 0){
+            route.add("No route found");
             return route;
         }
+
 
         double bestLength = Double.POSITIVE_INFINITY;
         ArrayList<Integer> bestRoute = new ArrayList<>();
         ArrayList<Integer> potentialRoute;
         for (int i = 0; i < startNodes.size(); i++){
-            for (int j = 0; i < targetNodes.size(); j++){
+            for (int j = 0; j < targetNodes.size(); j++){
                 potentialRoute = AStar(activity, startNodes.get(i),targetNodes.get(j));
                 if (RouteLength(potentialRoute) < bestLength){
                     bestRoute = potentialRoute;
@@ -98,16 +97,19 @@ public class Global {
                 }
             }
         }
-
         if (bestRoute.size() == 0){
-            return null;
+            route.add("No route found");
+            return route;
         }
         route = GetDirections(bestRoute);
         return route;
     }
 
-    public static int RouteLength(ArrayList<Integer> route){
-        int length = 0;
+    public static Double RouteLength(ArrayList<Integer> route){
+        Double length = (double) 0;
+        if (route.size() == 0){
+            return Double.POSITIVE_INFINITY;
+        }
         for (int i = 1; i < route.size(); i++){
             length += StraightDistance(i - 1, i);
         }
@@ -203,18 +205,19 @@ public class Global {
 
     public static ArrayList<String> GetDirections(ArrayList<Integer> path){
         ArrayList<String> directionList = new ArrayList<>();
-        int straightDistance = 1;
+        Double straightDistance = (double) 0;
         if (path.size() == 2){
             directionList.add("Go forward 1 metres to your destination");
         } else if (path.size() < 2) {
             directionList.add("You are at your destination already");
         } else {
             int previousDirection = CardinalDirection(path.get(0), path.get(1));
-            for (int i = 0; i < (path.size() - 2); i++){
+            straightDistance = StraightDistance(path.get(0),path.get(1));
+            for (int i = 1; i < (path.size() - 2); i++){
                 int newDirection = CardinalDirection(path.get(i), path.get(i + 1));
                 if (network.get(path.get(i)).z != network.get(path.get(i + 1)).z){
-                    directionList.add("Go forward " + Integer.toString(straightDistance) + " metres");
-                    straightDistance = 1;
+                    directionList.add("Go forward " + Double.toString(straightDistance) + " metres");
+                    straightDistance = StraightDistance(path.get(i),path.get(i + 1));
                     if (network.get(path.get(i)).z < network.get(path.get(i + 1)).z){
                         directionList.add("Go up the stairs " + Double.toString(StraightDistance(path.get(i),path.get(i + 1))) + " metres");
                     } else {
@@ -227,10 +230,10 @@ public class Global {
                     continue;
                 }
 
-                directionList.add("Go forward " + Integer.toString(straightDistance) + " metres");
-                straightDistance = 1;
+                directionList.add("Go forward " + Double.toString(straightDistance) + " metres");
+                straightDistance = StraightDistance(path.get(i),path.get(i + 1));
                 String instruction = "Turn ";
-                if (newDirection > previousDirection || (newDirection == 1 && previousDirection == 4)){
+                if ((newDirection > previousDirection && !(newDirection == 4 && previousDirection == 1))  || (newDirection == 1 && previousDirection == 4)){
                     instruction = instruction + "right";
                 } else {
                     instruction = instruction + "left";
@@ -242,8 +245,8 @@ public class Global {
                 }
                 directionList.add(instruction);
             }
+            directionList.add("Go forward " + Double.toString(straightDistance) + " metres to your destination");
         }
-        directionList.add("Go forward " + Integer.toString(straightDistance) + " metres to your destination");
         return directionList;
     }
 
