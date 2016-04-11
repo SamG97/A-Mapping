@@ -22,9 +22,9 @@ public class DisplayRoute extends AppCompatActivity {
 
         ArrayList<String> route = Global.RouteFind(this);
 
-        /*for (int i = 0; i < route.size(); i++){
+        for (int i = 0; i < route.size(); i++){
             createNewTextView(route.get(i));
-        }*/
+        }
 
         Button back = (Button) findViewById(R.id.back);
         back.setOnClickListener(new View.OnClickListener() {
