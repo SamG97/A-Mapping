@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
+
 import java.util.Arrays;
 
 public class Places extends AppCompatActivity{
@@ -33,13 +35,22 @@ public class Places extends AppCompatActivity{
             }
         });
 
+        TextView stageLabel = (TextView) findViewById(R.id.stageLabel);
         Button toilets = (Button) findViewById(R.id.toilet);
-        toilets.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ToiletMenu();
-            }
-        });
+        if (Global.locationStage == 0){
+            stageLabel.setText("Start Location");
+            toilets.setVisibility(View.GONE);
+
+        } else {
+            stageLabel.setText("Destination");
+            toilets.setVisibility(View.VISIBLE);
+            toilets.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    ToiletMenu();
+                }
+            });
+        }
 
         Button back = (Button) findViewById(R.id.back);
         back.setOnClickListener(new View.OnClickListener() {
@@ -145,7 +156,7 @@ public class Places extends AppCompatActivity{
         cafe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ReturnPlace("Cafe");
+                ReturnPlace("Cafe 42");
             }
         });
 

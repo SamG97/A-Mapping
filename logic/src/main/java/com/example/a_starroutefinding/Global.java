@@ -15,11 +15,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Global {
+    //Declare global variables
     static MainActivity mainActivity = null;
     static int locationStage = 0;
     static String startLocation, targetLocation = "";
     static ArrayList<Node> network = new ArrayList<>();
 
+    //Declare node class
     public static class Node {
         public String identifier = "";
         public int nodeID, x, y, z = 0;
@@ -27,6 +29,7 @@ public class Global {
     }
 
     public static boolean ReadStairOption(AppCompatActivity activity) {
+        //Reads in the stair option saved to settings.txt and returns the value in the file
         boolean stairOption = false;
         try (FileInputStream fileInputStream = activity.openFileInput("settings.txt")){
             String ReadMessage;
@@ -62,8 +65,7 @@ public class Global {
                 network.add(currentNode);
             }
         } catch (IOException e){
-            CreateMapFile(activity);
-            InitialiseNetwork(activity);
+            e.printStackTrace();
         }
     }
 
@@ -102,6 +104,7 @@ public class Global {
             return route;
         }
         route = GetDirections(bestRoute);
+        route.add("Total route length: " + PluralChecker(Math.round(bestLength)));
         return route;
     }
 
@@ -165,8 +168,14 @@ public class Global {
                     continue;
                 }
 
-                if (stairOption && network.get(currentNode).z != network.get(testNode).z && !(currentNode == 179 || currentNode == 180)){
-                    continue;
+                if ((currentNode == 119 && testNode == 183) || (currentNode == 183 && testNode == 119)){
+                    if (!stairOption){
+                        continue;
+                    }
+                } else {
+                    if (stairOption && (network.get(currentNode).z != network.get(testNode).z && !(currentNode == 179 || currentNode == 180) || (currentNode == 7 && testNode == 8) || (currentNode == 8 && testNode == 7) || (currentNode == 16 && testNode == 17) || (currentNode == 17 && testNode == 16))) {
+                        continue;
+                    }
                 }
 
                 double trialGScore = gScore.get(currentNode) + StraightDistance(currentNode, testNode);
@@ -205,9 +214,9 @@ public class Global {
 
     public static ArrayList<String> GetDirections(ArrayList<Integer> path){
         ArrayList<String> directionList = new ArrayList<>();
-        Double straightDistance = (double) 0;
+        Double straightDistance;
         if (path.size() == 2){
-            directionList.add("Go forward 1 metres to your destination");
+            directionList.add("Go forward 1 metre to your destination");
         } else if (path.size() < 2) {
             directionList.add("You are at your destination already");
         } else {
@@ -215,14 +224,38 @@ public class Global {
             straightDistance = StraightDistance(path.get(0),path.get(1));
             for (int i = 1; i < (path.size() - 1); i++){
                 int newDirection = CardinalDirection(path.get(i), path.get(i + 1));
-                if (network.get(path.get(i)).z != network.get(path.get(i + 1)).z){
-                    directionList.add("Go forward " + Long.toString(Math.round(straightDistance)) + " metres");
-                    straightDistance = StraightDistance(path.get(i),path.get(i + 1));
-                    if (network.get(path.get(i)).z < network.get(path.get(i + 1)).z){
-                        directionList.add("Go up the stairs " + Long.toString(Math.round(StraightDistance(path.get(i),path.get(i + 1)))) + " metres");
-                    } else {
-                        directionList.add("Go down the stairs " + Long.toString(Math.round(StraightDistance(path.get(i),path.get(i + 1)))) + " metres");
+
+                if (path.get(i) == 119 && path.get(i + 1) == 183){
+                    if (straightDistance > 0) {
+                        directionList.add("Go forward " + PluralChecker(Math.round(straightDistance)));
+                        straightDistance = (double) 0;
                     }
+                    directionList.add("Go up the lift");
+                    previousDirection = 1;
+                    continue;
+                }
+                if (path.get(i) == 183 && path.get(i + 1) == 119){
+                    if (straightDistance > 0) {
+                        directionList.add("Go forward " + PluralChecker(Math.round(straightDistance)));
+                        straightDistance = (double) 0;
+                    }
+                    directionList.add("Go down the lift");
+                    previousDirection = 1;
+                    continue;
+                }
+
+                if ((network.get(path.get(i)).z != network.get(path.get(i + 1)).z) && !(path.get(i) == 179 || path.get(i) == 180)){
+                    if (straightDistance > 0) {
+                        directionList.add("Go forward " + PluralChecker(Math.round(straightDistance)));
+                        straightDistance = (double) 0;
+                    }
+                    if (network.get(path.get(i)).z < network.get(path.get(i + 1)).z){
+                        directionList.add("Go up the stairs " + PluralChecker(Math.round(StraightDistance(path.get(i),path.get(i + 1)))));
+                    } else {
+                        directionList.add("Go down the stairs " + PluralChecker(Math.round(StraightDistance(path.get(i),path.get(i + 1)))));
+                    }
+                    previousDirection = newDirection;
+                    continue;
                 }
 
                 if (previousDirection == newDirection){
@@ -230,7 +263,9 @@ public class Global {
                     continue;
                 }
 
-                directionList.add("Go forward " + Long.toString(Math.round(straightDistance)) + " metres");
+                if (straightDistance > 0) {
+                    directionList.add("Go forward " + PluralChecker(Math.round(straightDistance)));
+                }
                 straightDistance = StraightDistance(path.get(i),path.get(i + 1));
                 String instruction = "Turn ";
                 if ((newDirection > previousDirection && !(newDirection == 4 && previousDirection == 1)) || (newDirection == 1 && previousDirection == 4)){
@@ -246,7 +281,7 @@ public class Global {
                 directionList.add(instruction);
                 previousDirection = newDirection;
             }
-            directionList.add("Go forward " + Long.toString(Math.round(straightDistance)) + " metres to your destination");
+            directionList.add("Go forward " + PluralChecker(Math.round(straightDistance)) + " to your destination");
         }
         return directionList;
     }
@@ -264,6 +299,14 @@ public class Global {
             } else {
                 return 2;
             }
+        }
+    }
+
+    public static String PluralChecker(long value){
+        if (value == 1){
+            return Long.toString(value) + " metre";
+        } else {
+            return Long.toString(value) + " metres";
         }
     }
 
@@ -286,7 +329,7 @@ public class Global {
                     "14,Branch 3,-32,11,0,13,15,30\n" +
                     "15,Branch 4,-32,3,0,14,16,31\n" +
                     "16,Branch 5,-32,0,0,15,17,33\n" +
-                    "17,Branch 8,-16,0,0,2,16,34\n" +
+                    "17,Hall,-16,0,0,2,16,34\n" +
                     "18,Staff Corridor,2,2,0,1,19\n" +
                     "19,Door,2,8,0,18,20,137\n" +
                     "20,Stairs,1,8,0,3,19,41\n" +
@@ -370,7 +413,7 @@ public class Global {
                     "98,Stairs,-12,47,4,99\n" +
                     "99,Dummy,-12,40,0,98,100\n" +
                     "100,Dummy 2,-12,29,0,22,101\n" +
-                    "101,Playground,8,29,0,100,110\n" +
+                    "101,Playground,8,29,0,100,102,110\n" +
                     "102,Door,8,56,0,101,103\n" +
                     "103,Entrance,6,56,0,102,104,106\n" +
                     "104,B7,6,63,0,103,105\n" +
@@ -388,11 +431,11 @@ public class Global {
                     "116,Changing Room,71,23,0,114\n" +
                     "117,S2,78,24,0,114,118\n" +
                     "118,Fitness Room,83,24,0,117\n" +
-                    "119,Stairs,66,22,0,113,120\n" +
+                    "119,Stairs,66,22,0,113,120,183\n" +
                     "120,Dummy,66,20,1,119,121\n" +
                     "121,Dummy 2,64,20,2,120,122\n" +
-                    "122,Stairs,64,22,4,121,123\n" +
-                    "123,Disabled Toilets,68,22,4,122,124\n" +
+                    "122,Stairs,64,22,4,121,183\n" +
+                    "123,Disabled Toilets,68,22,4,124,183\n" +
                     "124,Men's Toilets/S11,69,22,4,123,125\n" +
                     "125,Women's Toilets,71,22,4,124,126\n" +
                     "126,Common Room,72,22,4,125\n" +
@@ -433,7 +476,7 @@ public class Global {
                     "161,Dummy,-62,-19,0,160,162\n" +
                     "162,Branch,-62,3,0,32,161,163\n" +
                     "163,Door,-62,43,1,162,164,166,174\n" +
-                    "164,A1,-63,43,1,163,165\n" +
+                    "164,A1,-63,43,1,165\n" +
                     "165,A2,-63,44,1,164,166\n" +
                     "166,Branch,-62,44,1,163,165,167,168\n" +
                     "167,Men's Toilets,-61,44,1,166\n" +
@@ -451,7 +494,8 @@ public class Global {
                     "179,Dummy 4,-44,35,1,178,180\n" +
                     "180,Dummy 5,-37,35,0,179,181\n" +
                     "181,Branch,-37,29,0,22,180,182\n" +
-                    "182,Dummy,-45,29,0,175,181";
+                    "182,Dummy,-45,29,0,175,181\n" +
+                    "183,Lift,66,22,4,119,122,123";
             FileOutputStream fileOutputStream = activity.openFileOutput("network.txt", Context.MODE_PRIVATE);
             fileOutputStream.write(WriteMessage.getBytes());
             fileOutputStream.close();

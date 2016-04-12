@@ -53,13 +53,6 @@
                 <Button
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="F"
-                    android:id="@+id/f"
-                    android:layout_weight="0.05" />
-
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:text="J"
                     android:id="@+id/j"
                     android:layout_weight="0.05" />
