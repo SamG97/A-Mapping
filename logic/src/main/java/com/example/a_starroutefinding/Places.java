@@ -12,13 +12,37 @@ import java.util.Arrays;
 public class Places extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //Sets up activity
         super.onCreate(savedInstanceState);
         MainPlaceMenu();
     }
 
+    protected void ReturnPlace(String placeName){
+        //Saves the chosen location to the right position and sets up the next activity
+        if (Global.locationStage == 0) {
+            //Saves start location
+            Global.startLocation = placeName;
+            //Changes to finding the destination and creates a new instance of the Places activity to do this
+            Global.locationStage = 1;
+            Intent start = new Intent(Places.this, Places.class);
+            startActivity(start);
+        } else {
+            //Saves the destination
+            Global.targetLocation = placeName;
+            //Starts the DisplayRoute activity to calculate and display the route
+            Intent start = new Intent(Places.this, DisplayRoute.class);
+            startActivity(start);
+        }
+        //Ends the current activity and moves on to whichever activity was created in the if statement
+        finish();
+    }
+
     protected void MainPlaceMenu(){
+        //Manages the main menu for choosing locations
+        //Sets view to the main menu for selecting a location
         setContentView(R.layout.activity_places);
 
+        //Creates the common places button
         Button commonPlaces = (Button) findViewById(R.id.common);
         commonPlaces.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -27,6 +51,7 @@ public class Places extends AppCompatActivity{
             }
         });
 
+        //Creates the classroom block button
         Button classroom_block = (Button) findViewById(R.id.classroom);
         classroom_block.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -35,14 +60,18 @@ public class Places extends AppCompatActivity{
             }
         });
 
+        //Creates the title text and toilets button
         TextView stageLabel = (TextView) findViewById(R.id.stageLabel);
         Button toilets = (Button) findViewById(R.id.toilet);
+        //Changes the label at the top to reflect the current location being requested
         if (Global.locationStage == 0){
             stageLabel.setText("Start Location");
+            //Hides the toilets button if the start location is being chosen
             toilets.setVisibility(View.GONE);
 
         } else {
             stageLabel.setText("Destination");
+            //Shows the toilets button if the destination is being chosen and create an on click listener for it
             toilets.setVisibility(View.VISIBLE);
             toilets.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -52,38 +81,27 @@ public class Places extends AppCompatActivity{
             });
         }
 
+        //Creates a back button to end the current activity and return to the MainActivity
         Button back = (Button) findViewById(R.id.back);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Global.locationStage = 0;
                 finish();
             }
         });
     }
 
-    protected void ReturnPlace(String placeName){
-        if (Global.mainActivity != null) {
-            if (Global.locationStage == 0) {
-                Global.startLocation = placeName;
-                Global.locationStage = 1;
-                Intent start = new Intent(Places.this, Places.class);
-                startActivity(start);
-            } else {
-                Global.targetLocation = placeName;
-                Intent start = new Intent(Places.this, DisplayRoute.class);
-                startActivity(start);
-            }
-        }
-        finish();
-    }
-
     protected void CommonPlacesMenu() {
+        //Manages the menu for choosing non-classroom or toilet locations
+        //Changes the layout displayed to the user
         setContentView(R.layout.common_places);
+
+        //Creates the button for each location; this code is the same for each button with only the names being different
         Button reception = (Button) findViewById(R.id.reception);
         reception.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //Sends the chosen place to ReturnPlace to be processed
                 ReturnPlace("Reception");
             }
         });
@@ -184,6 +202,7 @@ public class Places extends AppCompatActivity{
             }
         });
 
+        //Creates a back button to return the user to the main menu for places
         Button back = (Button) findViewById(R.id.back);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -194,11 +213,16 @@ public class Places extends AppCompatActivity{
     }
 
     protected void ClassroomBlockMenu(){
+        //Manages the menu for choosing classroom blocks
+        //Changes the layout displayed to the user
         setContentView(R.layout.classroom_block);
+
+        //Creates the button for each block; this code is the same for each button with only the names being different
         Button a = (Button) findViewById(R.id.a);
         a.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //Pass the block chosen to RoomNumber so that the classroom number can be chosen
                 RoomNumber("A");
             }
         });
@@ -267,6 +291,7 @@ public class Places extends AppCompatActivity{
             }
         });
 
+        //Creates a back button to return the user to the main menu for places
         Button back = (Button) findViewById(R.id.back);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -277,8 +302,11 @@ public class Places extends AppCompatActivity{
     }
 
     protected void ToiletMenu(){
+        //Manages the menu for choosing which type of toilet is desired
+        //Changes the layout displayed to the user
         setContentView(R.layout.toilets_menu);
 
+        //Creates the button for each type of toilet; this code is the same for each button with only the names being different
         Button men = (Button) findViewById(R.id.men);
         men.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -303,6 +331,7 @@ public class Places extends AppCompatActivity{
             }
         });
 
+        //Creates a back button to return the user to the main menu for places
         Button back = (Button) findViewById(R.id.back);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -313,7 +342,11 @@ public class Places extends AppCompatActivity{
     }
 
     protected void RoomNumber(String block){
+        //Manages the menu for choosing the classroom numbers
+        //Changes the layout displayed to the user
         setContentView(R.layout.room_numbers);
+
+        //Creates and fills rooms with the classrooms in each block
         Integer[] rooms = {};
         switch(block){
             case "A": rooms = new Integer[] {1,2,3,4};
@@ -336,18 +369,24 @@ public class Places extends AppCompatActivity{
                 break;
         }
 
+        //Sets the passed block as final so that it can be passed to other functions
         final String blockName = block;
 
+        //Creates the button for each room number; this code is the same for each button with only the names being different
+        //Some numbers are deliberately skipped as no room in the school has those numbered classrooms
         Button a1 = (Button) findViewById(R.id.a1);
         if (Arrays.asList(rooms).contains(1)){
+            //If the room is in the current block, shows the button and create an on click listener
             a1.setVisibility(View.VISIBLE);
             a1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    //Returns the room code (block letter + number)
                     ReturnPlace(blockName + "1");
                 }
             });
         } else {
+            //If the room is not in the current block, hides the button
             a1.setVisibility(View.GONE);
         }
 
