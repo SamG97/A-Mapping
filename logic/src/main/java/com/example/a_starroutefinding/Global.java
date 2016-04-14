@@ -198,10 +198,10 @@ public class Global {
         }
 
         /*
-            If the best route is of zero length (i.e. no route was found),
+            If the best length is still of infinite length (i.e. no route was found),
             return that no route was found
          */
-        if (bestRoute.size() == 0){
+        if (bestLength == Double.POSITIVE_INFINITY){
             route.add("No route found");
             return route;
         }
@@ -241,7 +241,6 @@ public class Global {
     /*  Finds the shortest route between two nodes using the a* algorithm  */
     protected static ArrayList<Integer> AStar(AppCompatActivity activity,
                                               int startNode, int targetNode){
-
         Boolean stairOption = ReadStairOption(activity);
         int currentNode;
 
@@ -260,6 +259,7 @@ public class Global {
             there
          */
         Map<Integer, Integer> path = new HashMap<>();
+
         /*
             The estimated distance from the start to end node via the node
             stored as the key
@@ -492,7 +492,7 @@ public class Global {
          */
         int totalDistance = 0;
         ArrayList<String> directionList = new ArrayList<>();
-        Double straightDistance = (double) 0;
+        double straightDistance = (double) 0;
         if (path.size() == 2) {
 
             /*
@@ -544,7 +544,7 @@ public class Global {
                         Calculates the length of the stairs and adds this to the
                         total distance
                      */
-                    Long stairLength = Math.round(StraightLineDistance(
+                    long stairLength = Math.round(StraightLineDistance(
                             path.get(0), path.get(1)));
                     totalDistance += stairLength;
 
@@ -621,8 +621,8 @@ public class Global {
                     next to a full flight of stairs
                  */
                 if ((network.get(path.get(i)).z != network.get(
-                        path.get(i + 1)).z) && !(path.get(i) == 179
-                        || path.get(i) == 180)){
+                        path.get(i + 1)).z) &&
+                        !(path.get(i) == 179 || path.get(i) == 180)){
 
                     /*
                         Adds the current distance traveled in a straight line to
@@ -639,7 +639,7 @@ public class Global {
                         Calculates the length of the stairs and adds this to the
                         total distance
                      */
-                    Long stairLength = Math.round(StraightLineDistance(
+                    long stairLength = Math.round(StraightLineDistance(
                             path.get(i), path.get(i + 1)));
                     totalDistance += stairLength;
 

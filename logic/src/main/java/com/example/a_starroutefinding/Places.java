@@ -137,7 +137,7 @@ public class Places extends AppCompatActivity{
         reception.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                
+
                 //  Sends the chosen place to ReturnPlace to be processed
                 ReturnPlace("Reception");
             }
@@ -204,6 +204,14 @@ public class Places extends AppCompatActivity{
             @Override
             public void onClick(View view) {
                 ReturnPlace("Swimming Pool");
+            }
+        });
+
+        Button changing = (Button) findViewById(R.id.changing);
+        changing.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ReturnPlace("Changing Room");
             }
         });
 

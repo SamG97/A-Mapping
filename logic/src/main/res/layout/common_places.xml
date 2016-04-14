@@ -81,6 +81,13 @@
                 <Button
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:text="Changing Room"
+                    android:id="@+id/changing"
+                    android:layout_weight="0.05" />
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:text="Cafe 42"
                     android:id="@+id/cafe"
                     android:layout_weight="0.05" />
