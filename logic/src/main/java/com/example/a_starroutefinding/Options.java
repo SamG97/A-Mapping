@@ -19,6 +19,7 @@ public class Options extends AppCompatActivity {
     protected Boolean stairOption = false;
 
     protected void onCreate(Bundle savedInstanceState) {
+
         //  Sets up activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_options);
@@ -31,6 +32,7 @@ public class Options extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 //  Saves the current status of the stair options switch
                 try {
                     String writeMessage = stairOption.toString();
@@ -41,6 +43,7 @@ public class Options extends AppCompatActivity {
                 } catch (IOException e){
                     e.printStackTrace();
                 }
+
                 //  Ends the activity and goes back to MainActivity
                 finish();
             }
@@ -48,11 +51,13 @@ public class Options extends AppCompatActivity {
 
         //  Loads the saved stair option
         stairOption = Global.ReadStairOption(this);
+
         /*
             Sets the appearance of the stair option slider to match this saved
             value
          */
         stairs.setChecked(stairOption);
+
         //  Changes stair option to opposite of current value when clicked
         stairs.setOnClickListener(new View.OnClickListener() {
             @Override

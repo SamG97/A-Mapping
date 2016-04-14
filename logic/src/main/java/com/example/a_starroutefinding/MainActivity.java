@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity{
         options.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 //  Move to the Options activity
                 Intent start = new Intent(MainActivity.this, Options.class);
                 startActivity(start);
