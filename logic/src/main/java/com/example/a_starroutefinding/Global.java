@@ -139,6 +139,7 @@ public class Global {
         ArrayList<String> route = new ArrayList<>();
         ArrayList<Integer> startNodes = new ArrayList<>();
         ArrayList<Integer> targetNodes = new ArrayList<>();
+
         /*
             Some locations have multiple nodes (e.g. classrooms with two exits,
             such as C7, and toilets) so it may be necessary to check multiple
@@ -440,9 +441,11 @@ public class Global {
         //  Starts with the target node
         completePath.add(currentNode);
 
-        //  While the current node was accessed from another node, trace back
-        // along this network, adding the source for reaching each node in the
-        // shortest way to the route
+        /*
+            While the current node was accessed from another node, trace back
+            along this network, adding the source for reaching each node in the
+            shortest way to the route
+         */
         while (path.containsKey(currentNode)){
             currentNode = path.get(currentNode);
             completePath.add(currentNode);
@@ -493,7 +496,7 @@ public class Global {
         int totalDistance = 0;
         ArrayList<String> directionList = new ArrayList<>();
         double straightDistance = (double) 0;
-        if (path.size() == 2) {
+        if (path.size() == 1) {
 
             /*
                 If there is only one node, the start and target node were the
@@ -608,6 +611,7 @@ public class Global {
 
                     //  Sets the direction to be coming out of the lift
                     previousDirection = 1;
+
                     //  Move on to the next node
                     continue;
                 }
@@ -733,9 +737,13 @@ public class Global {
                 Finally, adds the remaining distance travelled to the
                 destination and indicate that the route is finished
              */
-            directionList.add("Go forward " + PluralChecker(Math.round(
-                    straightDistance)) + " to your destination");
-            totalDistance += straightDistance;
+            if (straightDistance > 0) {
+                directionList.add("Go forward " + PluralChecker(Math.round(
+                        straightDistance)) + " to your destination");
+                totalDistance += straightDistance;
+            } else {
+                directionList.add("You have reached your destination");
+            }
         }
 
         /*
