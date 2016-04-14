@@ -48,13 +48,13 @@ public class Global {
                 Opens the settings.txt, reads the value stored and converts to a
                 boolean data type
              */
-            String ReadMessage;
+            String readMessage;
             InputStreamReader inputStreamReader = new InputStreamReader(
                     fileInputStream);
             BufferedReader bufferedReader = new BufferedReader(
                     inputStreamReader);
-            ReadMessage = bufferedReader.readLine();
-            stairOption = Boolean.valueOf(ReadMessage);
+            readMessage = bufferedReader.readLine();
+            stairOption = Boolean.valueOf(readMessage);
         } catch (IOException e){
 
             /*
@@ -93,7 +93,7 @@ public class Global {
                     Separates the line into an array on commas which separate
                     data
                  */
-                String elements[] = line.split(",");
+                String[] elements = line.split(",");
 
                 /*
                     Places each item in the array into its appropriate element
@@ -815,7 +815,6 @@ public class Global {
         remade every time the app is started to make sure the correct network is
         used
      */
-
     public static void CreateMapFile(Activity activity){
         try {
             String WriteMessage = "0,Reception,0,0,0,1,139\n" +

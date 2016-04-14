@@ -72,8 +72,8 @@ public class Places extends AppCompatActivity{
         });
 
         //  Creates the classroom block button
-        Button classroom_block = (Button) findViewById(R.id.classroom);
-        classroom_block.setOnClickListener(new View.OnClickListener() {
+        Button classroomBlock = (Button) findViewById(R.id.classroom);
+        classroomBlock.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ClassroomBlockMenu();

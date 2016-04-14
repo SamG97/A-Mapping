@@ -33,10 +33,10 @@ public class Options extends AppCompatActivity {
             public void onClick(View view) {
                 //  Saves the current status of the stair options switch
                 try {
-                    String WriteMessage = stairOption.toString();
+                    String writeMessage = stairOption.toString();
                     FileOutputStream fileOutputStream = openFileOutput(
                             "settings.txt", MODE_PRIVATE);
-                    fileOutputStream.write(WriteMessage.getBytes());
+                    fileOutputStream.write(writeMessage.getBytes());
                     fileOutputStream.close();
                 } catch (IOException e){
                     e.printStackTrace();
