@@ -414,7 +414,7 @@ public class Places extends AppCompatActivity{
                 break;
             case "C": rooms = new Integer[] {2,3,4,5,6,7,8,9};
                 break;
-            case "D": rooms = new Integer[] {2,3,4,5,6,7};
+            case "D": rooms = new Integer[] {2,4,6};
                 break;
             case "E": rooms = new Integer[] {1,12,13,20,21,22,23,24,30,31,32,33,
                     34};
