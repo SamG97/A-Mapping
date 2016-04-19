@@ -48,7 +48,7 @@ If no route can be found, this will also be shown on this display.
 
 ##Maintenance and Troubleshooting
 
-Under normal usage, the app should not need any client-side maintenance, but should an error occur, please contact the developer with the conditions that lead to the error so that it can be corrected. Email is the preferred form of contact. Should the app state that no route could be found but you think this is in error or you think a longer or incorrect route is being displayed, first check that the no stairs option is turned off as this may be preventing it from finding a route that involves stairs. If this does not fix the issue, as before, please contact the developer. Should the app be updated (such as if a new building is built or a room’s purpose changes), the app will need to be manually reinstalled using the method outlined in the installation section of this guide.
+Under normal usage, the app should not need any client-side maintenance, but should an error occur, please contact the developer with the conditions that lead to the error so that it can be corrected. The issues tracker is the preferred form of contact. Should the app state that no route could be found but you think this is in error or you think a longer or incorrect route is being displayed, first check that the no stairs option is turned off as this may be preventing it from finding a route that involves stairs. If this does not fix the issue, as before, please contact the developer. Should the app be updated (such as if a new building is built or a room’s purpose changes), the app will need to be manually reinstalled using the method outlined in the installation section of this guide.
 
 ##Limitations
 
